@@ -6,5 +6,10 @@
         public string Mensagem { get; set; }
         public Guid ClienteId { get; set; }
         public DateTime DataDeEnvio { get; set; }
+        //Rever Atributos
+        public Notificacao()
+        {
+
+        }
     }
 }

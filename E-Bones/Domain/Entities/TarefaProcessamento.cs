@@ -9,5 +9,10 @@ namespace E_Bones.Domain.Entities
         public Status Status { get; set; }            // Status (Pendente, Concluído, Falhou)
         public DateTime DataCriacao { get; set; }
         public DateTime? DataDeTermino { get; set; }
+
+        public TarefaDeProcessamento()
+        {
+
+        }
     }
 }

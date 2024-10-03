@@ -5,7 +5,7 @@ namespace E_Bones.Domain.Entities
     public class Pedido
     {
         public Guid Id { get; set; }
-       // public ClienteResponseDTO Cliente { get; set; }
+        public Cliente ClienteDoPedido { get; set; }
         public Status StatusPedido { get; set; }
         public string Descricao { get; set; }
         public float PrecoTotal { get; set; }
@@ -13,5 +13,10 @@ namespace E_Bones.Domain.Entities
         public DateTime DataDeCriacao { get; set; }
 
         public ICollection<Produto> Produtos { get; set; }
+
+        public Pedido()
+        {
+
+        }
     }
 }

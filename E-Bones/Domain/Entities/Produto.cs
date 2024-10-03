@@ -10,5 +10,10 @@ namespace E_Bones.Domain.Entities
         public ICollection<String> ImageUrl { get; set; }
         public int Quantidade { get; set; }
         public float Preco{ get; set; }
+
+        public Produto()
+        {
+
+        }
     }
 }
