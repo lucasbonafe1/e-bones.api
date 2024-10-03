@@ -1,0 +1,6 @@
+@E_Bones_HostAddress = http://localhost:5140
+
+GET {{E_Bones_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
