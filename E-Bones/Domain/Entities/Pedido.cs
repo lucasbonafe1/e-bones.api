@@ -12,7 +12,7 @@ namespace E_Bones.Domain.Entities
         public Guid Id { get; set; }
 
         [Column("cliente_pedido")]
-        public Cliente ClienteDoPedido { get; set; }
+        public Guid ClienteDoPedido { get; set; }
 
         [Column("status")]
         public Status StatusPedido { get; set; }
@@ -30,6 +30,7 @@ namespace E_Bones.Domain.Entities
         public DateTime DataDeCriacao { get; set; }
 
         public ICollection<Produto> Produtos { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
         public Pedido()
         {

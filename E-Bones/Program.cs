@@ -1,4 +1,6 @@
+using E_Bones.Domain.Repositories;
 using E_Bones.Infrastructure.Context;
+using E_Bones.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -10,6 +12,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// REPOSITORY
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+
 builder.Services.AddDbContext<DatabaseContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

@@ -3,6 +3,7 @@ using System;
 using E_Bones.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace E_Bones.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20241007144142_initialMigration")]
+    partial class initialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +37,7 @@ namespace E_Bones.Migrations
                         .HasColumnName("data_de_criacao");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamptz")
+                        .HasColumnType("timestamp")
                         .HasColumnName("deleted_at");
 
                     b.Property<string>("Email")
@@ -73,7 +76,7 @@ namespace E_Bones.Migrations
                         .HasColumnName("data_envio");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamptz")
+                        .HasColumnType("timestamp")
                         .HasColumnName("deleted_at");
 
                     b.Property<string>("Mensagem")
@@ -105,7 +108,7 @@ namespace E_Bones.Migrations
                         .HasColumnName("data_criacao");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamptz")
+                        .HasColumnType("timestamp")
                         .HasColumnName("deleted_at");
 
                     b.Property<string>("Descricao")
@@ -140,7 +143,7 @@ namespace E_Bones.Migrations
                         .HasColumnName("id");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamptz")
+                        .HasColumnType("timestamp")
                         .HasColumnName("deleted_at");
 
                     b.Property<string>("Descricao")
@@ -192,7 +195,7 @@ namespace E_Bones.Migrations
                         .HasColumnName("data_termino");
 
                     b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamptz")
+                        .HasColumnType("timestamp")
                         .HasColumnName("deleted_at");
 
                     b.Property<int>("Status")

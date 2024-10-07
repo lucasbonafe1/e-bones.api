@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace E_Bones.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241004124636_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241007150708_fixTimestamptz")]
+    partial class fixTimestamptz
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,6 +36,10 @@ namespace E_Bones.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("data_de_criacao");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("deleted_at");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text")
@@ -53,7 +57,7 @@ namespace E_Bones.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Clientes");
+                    b.ToTable("clientes", (string)null);
                 });
 
             modelBuilder.Entity("E_Bones.Domain.Entities.Notificacao", b =>
@@ -71,6 +75,10 @@ namespace E_Bones.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("data_envio");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("deleted_at");
+
                     b.Property<string>("Mensagem")
                         .IsRequired()
                         .HasColumnType("text")
@@ -78,7 +86,7 @@ namespace E_Bones.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notificacoes");
+                    b.ToTable("notificacao", (string)null);
                 });
 
             modelBuilder.Entity("E_Bones.Domain.Entities.Pedido", b =>
@@ -88,12 +96,20 @@ namespace E_Bones.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<Guid>("ClienteDoPedidoId")
+                    b.Property<Guid>("ClienteDoPedido")
+                        .HasColumnType("uuid")
+                        .HasColumnName("cliente_pedido");
+
+                    b.Property<Guid?>("ClienteId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("DataDeCriacao")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("data_criacao");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("deleted_at");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
@@ -114,9 +130,9 @@ namespace E_Bones.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClienteDoPedidoId");
+                    b.HasIndex("ClienteId");
 
-                    b.ToTable("Pedidos");
+                    b.ToTable("pedidos", (string)null);
                 });
 
             modelBuilder.Entity("E_Bones.Domain.Entities.Produto", b =>
@@ -125,6 +141,10 @@ namespace E_Bones.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("deleted_at");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
@@ -156,7 +176,7 @@ namespace E_Bones.Migrations
 
                     b.HasIndex("PedidoId");
 
-                    b.ToTable("Produtos");
+                    b.ToTable("produtos", (string)null);
                 });
 
             modelBuilder.Entity("E_Bones.Domain.Entities.TarefaDeProcessamento", b =>
@@ -174,6 +194,10 @@ namespace E_Bones.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("data_termino");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamptz")
+                        .HasColumnName("deleted_at");
+
                     b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("status");
@@ -185,18 +209,14 @@ namespace E_Bones.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TarefaDeProcessamentos");
+                    b.ToTable("task_processamento", (string)null);
                 });
 
             modelBuilder.Entity("E_Bones.Domain.Entities.Pedido", b =>
                 {
-                    b.HasOne("E_Bones.Domain.Entities.Cliente", "ClienteDoPedido")
+                    b.HasOne("E_Bones.Domain.Entities.Cliente", null)
                         .WithMany("Pedidos")
-                        .HasForeignKey("ClienteDoPedidoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ClienteDoPedido");
+                        .HasForeignKey("ClienteId");
                 });
 
             modelBuilder.Entity("E_Bones.Domain.Entities.Produto", b =>

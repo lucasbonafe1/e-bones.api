@@ -23,6 +23,7 @@ namespace E_Bones.Domain.Entities
         public DateTime DataDeCriacao { get; set; }
 
         public ICollection<Pedido> Pedidos { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
         public Cliente() { 
         }

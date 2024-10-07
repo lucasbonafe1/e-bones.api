@@ -22,6 +22,7 @@ namespace E_Bones.Domain.Entities
 
         [Column("data_termino")]
         public DateTime? DataDeTermino { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
         public TarefaDeProcessamento()
         {

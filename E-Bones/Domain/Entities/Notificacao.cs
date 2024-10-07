@@ -18,7 +18,9 @@ namespace E_Bones.Domain.Entities
 
         [Column("data_envio")]
         public DateTime DataDeEnvio { get; set; }
-        //Rever Atributos
+
+        public DateTime? DeletedAt { get; set; }
+        
         public Notificacao()
         {
 

@@ -26,6 +26,8 @@ namespace E_Bones.Domain.Entities
         [Column("preco")]
         public float Preco{ get; set; }
 
+        public DateTime? DeletedAt { get; set; }
+
         public Produto()
         {
 
