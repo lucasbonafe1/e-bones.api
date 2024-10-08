@@ -16,6 +16,8 @@ namespace E_Bones.Infrastructure.Repositories
 
         public async Task<Cliente> Add(Cliente entity)
         {
+            entity.DataDeCriacao = DateTime.UtcNow;
+
             if(entity != null)
             {
                 await _context.Clientes.AddAsync(entity);
@@ -25,7 +27,7 @@ namespace E_Bones.Infrastructure.Repositories
             return entity;
         }
 
-        public async Task<List<Cliente>> GetAll()
+        public async Task<IEnumerable<Cliente>> GetAll()
         {
             return await _context.Clientes.Where(c => c.DeletedAt == null).Include(c => c.Pedidos).ToListAsync();
         }

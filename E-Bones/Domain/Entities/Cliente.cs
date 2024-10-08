@@ -27,5 +27,12 @@ namespace E_Bones.Domain.Entities
 
         public Cliente() { 
         }
+
+        public Cliente(string nome, string email, string telefone)
+        {
+            Nome = nome;
+            Email = email;
+            Telefone = telefone;
+        }
     }
 }

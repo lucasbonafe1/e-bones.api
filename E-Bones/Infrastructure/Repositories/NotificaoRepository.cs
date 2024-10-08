@@ -16,6 +16,8 @@ namespace E_Bones.Infrastructure.Repositories
 
         public async Task<Notificacao> Add(Notificacao entity)
         {
+            entity.DataDeEnvio = DateTime.UtcNow;
+
             if (entity != null)
             {
                 await _context.Notificacoes.AddAsync(entity);
@@ -25,7 +27,7 @@ namespace E_Bones.Infrastructure.Repositories
             return entity;
         }
 
-        public async Task<List<Notificacao>> GetAll()
+        public async Task<IEnumerable<Notificacao>> GetAll()
         {
             return await _context.Notificacoes.Where(n => n.DeletedAt == null).ToListAsync();
         }

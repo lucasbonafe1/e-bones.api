@@ -36,5 +36,12 @@ namespace E_Bones.Domain.Entities
         {
 
         }
+
+        public Pedido(Guid clienteDoPedido, Status statusPedido, string descricao)
+        {
+            ClienteDoPedido = clienteDoPedido;
+            StatusPedido = statusPedido;
+            Descricao = descricao;
+        }
     }
 }

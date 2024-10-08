@@ -1,10 +1,11 @@
 ﻿using E_Bones.Domain.Entities;
+using E_Bones.Domain.Repositories;
 using E_Bones.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Bones.Infrastructure.Repositories
 {
-    public class PedidoRepository
+    public class PedidoRepository : IPedidoRepository
     {
         private readonly DatabaseContext _context;
 
@@ -15,6 +16,8 @@ namespace E_Bones.Infrastructure.Repositories
 
         public async Task<Pedido> Add(Pedido entity)
         {
+            entity.DataDeCriacao = DateTime.UtcNow;
+
             if (entity != null)
             {
                 await _context.Pedidos.AddAsync(entity);
@@ -24,7 +27,7 @@ namespace E_Bones.Infrastructure.Repositories
             return entity;
         }
 
-        public async Task<List<Pedido>> GetAll()
+        public async Task<IEnumerable<Pedido>> GetAll()
         {
             return await _context.Pedidos.Where(p => p.DeletedAt == null).ToListAsync();
         }

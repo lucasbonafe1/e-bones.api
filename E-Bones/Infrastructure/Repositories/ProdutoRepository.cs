@@ -1,10 +1,11 @@
 ﻿using E_Bones.Domain.Entities;
+using E_Bones.Domain.Repositories;
 using E_Bones.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Bones.Infrastructure.Repositories
 {
-    public class ProdutoRepository
+    public class ProdutoRepository : IProdutoRepository
     {
         private readonly DatabaseContext _context;
 
@@ -24,7 +25,7 @@ namespace E_Bones.Infrastructure.Repositories
             return entity;
         }
 
-        public async Task<List<Produto>> GetAll()
+        public async Task<IEnumerable<Produto>> GetAll()
         {
             return await _context.Produtos.Where(p => p.DeletedAt == null).ToListAsync();
         }

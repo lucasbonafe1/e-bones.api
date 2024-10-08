@@ -4,10 +4,10 @@ namespace E_Bones.Application.Interfaces
 {
     public interface IClienteService
     {
-        Task<ClienteResponseDto> GetUserByIdAsync(Guid id);
-        Task<IEnumerable<ClienteResponseDto>> GetAllUsersAsync();
-        Task<ClienteResponseDto> AddUserAsync(ClienteRequestDto user);
-        Task UpdateUserAsync(ClienteRequestDto user, Guid id);
-        Task<bool> DeleteUserAsync(Guid id);
+        Task<ClienteResponseDto> GetByIdAsync(Guid id);
+        Task<IEnumerable<ClienteResponseDto>> GetAllAsync();
+        Task<ClienteResponseDto> AddAsync(ClienteRequestDto user);
+        Task UpdateAsync(ClienteRequestDto user, Guid id);
+        Task<bool> DeleteAsync(Guid id);
     }
 }
