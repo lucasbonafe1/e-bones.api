@@ -2,6 +2,7 @@
 using E_Bones.Application.Interfaces;
 using E_Bones.Domain.Entities;
 using E_Bones.Domain.Repositories;
+using E_Bones.Infrastructure.Exceptions;
 
 namespace E_Bones.Application.Services
 {
@@ -18,7 +19,7 @@ namespace E_Bones.Application.Services
         {
             if (pedido == null)
             {
-                throw new Exception("Pedido não pode ser nulo.");
+                throw new BadRequestException("Pedido não pode ser nulo.");
             }
 
             Pedido pedidoConverted = new Pedido(pedido.ClienteDoPedido, pedido.StatusPedido, pedido.Descricao);
@@ -35,9 +36,9 @@ namespace E_Bones.Application.Services
 
             IEnumerable<Pedido> pedidos = await _pedidoRepository.GetAll();
 
-            if (pedidos == null)
+            if (!pedidos.Any())
             {
-                throw new Exception("Nenhum cliente encontrado.");
+                throw new NotFoundException("Nenhum pedido encontrado.");
             }
 
             var pedidoConverted = pedidos.Select(pedidoCriado => new PedidoResponseDto
@@ -61,7 +62,7 @@ namespace E_Bones.Application.Services
 
             if (pedido == null)
             {
-                throw new Exception("Nenhum pedido encontrado.");
+                throw new NotFoundException("Nenhum pedido encontrado.");
             }
 
             PedidoResponseDto pedidoResponse = new PedidoResponseDto(pedido);
@@ -75,7 +76,7 @@ namespace E_Bones.Application.Services
 
             if (pedidoExistente == null)
             {
-                throw new Exception("Nenhum pedido encontrado.");
+                throw new NotFoundException("Nenhum pedido encontrado.");
             }
 
             pedidoExistente.ClienteDoPedido = pedido.ClienteDoPedido;
@@ -89,7 +90,7 @@ namespace E_Bones.Application.Services
         {
             var pedido = await _pedidoRepository.GetById(id);
 
-            return (pedido == null && pedido.DeletedAt != null) ? throw new Exception("Id inexistente.") : await _pedidoRepository.Delete(id);
+            return (pedido == null && pedido.DeletedAt != null) ? throw new NotFoundException("Id inexistente.") : await _pedidoRepository.Delete(id);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
+﻿using E_Bones.Infrastructure.Exceptions;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -22,20 +23,20 @@ namespace E_Bones.Infrastructure.Middlewares
                 Type = exception.GetType().Name
             };
 
-            //switch (exception)
-            //{
-            //    case BadRequestException:
-            //        logger.LogError("Bad Request: {message}", exception.Message);
-            //        problemDetails.Status = (int)HttpStatusCode.BadRequest;
-            //        httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-            //        break;
+            switch (exception)
+            {
+                case BadRequestException:
+                    logger.LogError("Bad Request: {message}", exception.Message);
+                    problemDetails.Status = (int)HttpStatusCode.BadRequest;
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    break;
 
-            //    case NotFoundException:
-            //        logger.LogError("Not Found: {message}", exception.Message);
-            //        problemDetails.Status = (int)HttpStatusCode.NotFound;
-            //        httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
-            //        break;
-            //}
+                case NotFoundException:
+                    logger.LogError("Not Found: {message}", exception.Message);
+                    problemDetails.Status = (int)HttpStatusCode.NotFound;
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.NotFound;
+                    break;
+            }
             await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
 
             return true;

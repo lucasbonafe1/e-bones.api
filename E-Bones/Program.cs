@@ -2,6 +2,7 @@ using E_Bones.Application.Interfaces;
 using E_Bones.Application.Services;
 using E_Bones.Domain.Repositories;
 using E_Bones.Infrastructure.Context;
+using E_Bones.Infrastructure.Middlewares;
 using E_Bones.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -26,6 +27,9 @@ builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
 
+builder.Services
+    .AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
 {
@@ -40,6 +44,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 

@@ -1,9 +1,8 @@
-﻿using E_Bones.Application.Dtos.Cliente;
-using E_Bones.Application.Dtos.Produtos;
+﻿using E_Bones.Application.Dtos.Produtos;
 using E_Bones.Application.Interfaces;
 using E_Bones.Domain.Entities;
 using E_Bones.Domain.Repositories;
-using E_Bones.Infrastructure.Repositories;
+using E_Bones.Infrastructure.Exceptions;
 
 namespace E_Bones.Application.Services
 {
@@ -20,7 +19,7 @@ namespace E_Bones.Application.Services
         {
             if (produto == null)
             {
-                throw new Exception("Produto não pode ser nulo.");
+                throw new BadRequestException("Produto não pode ser nulo.");
             }
 
             Produto produtoConverted = new Produto(produto.Nome, produto.Descricao, produto.ImageUrl, produto.Quantidade, produto.Preco);
@@ -36,9 +35,9 @@ namespace E_Bones.Application.Services
         {
             IEnumerable<Produto> produtos = await _produtoRepository.GetAll();
 
-            if (produtos == null)
+            if (!produtos.Any())
             {
-                throw new Exception("Nenhum produto encontrado.");
+                throw new NotFoundException("Nenhum produto encontrado.");
             }
 
             var produtoConverted = produtos.Select(produto => new ProdutoResponseDto
@@ -60,7 +59,7 @@ namespace E_Bones.Application.Services
 
             if (produto == null)
             {
-                throw new Exception("Nenhum produto encontrado.");
+                throw new NotFoundException("Nenhum produto encontrado.");
             }
 
             ProdutoResponseDto produtoResponse = new ProdutoResponseDto(produto);
@@ -74,7 +73,7 @@ namespace E_Bones.Application.Services
 
             if (produtoExistente == null)
             {
-                throw new Exception("Nenhum produto encontrado.");
+                throw new NotFoundException("Nenhum produto encontrado.");
             }
 
             produtoExistente.Nome = produto.Nome;
@@ -90,7 +89,7 @@ namespace E_Bones.Application.Services
         {
             var produto = await _produtoRepository.GetById(id);
 
-            return (produto == null && produto.DeletedAt != null) ? throw new Exception("Id inexistente.") : await _produtoRepository.Delete(id);
+            return (produto == null && produto.DeletedAt != null) ? throw new NotFoundException("Id inexistente.") : await _produtoRepository.Delete(id);
         }
     }
 }

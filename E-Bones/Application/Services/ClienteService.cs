@@ -2,6 +2,7 @@
 using E_Bones.Application.Interfaces;
 using E_Bones.Domain.Entities;
 using E_Bones.Domain.Repositories;
+using E_Bones.Infrastructure.Exceptions;
 using System.Data;
 
 namespace E_Bones.Application.Services
@@ -19,7 +20,7 @@ namespace E_Bones.Application.Services
         {
             if (clienteDto == null) 
             {
-                throw new Exception("User não pode ser nulo.");
+                throw new BadRequestException("Cliente não pode ser nulo.");
             }    
 
             Cliente cliente = new Cliente(clienteDto.Nome, clienteDto.Email, clienteDto.Telefone);
@@ -35,9 +36,9 @@ namespace E_Bones.Application.Services
         {
             IEnumerable<Cliente> clientes = await _clienteRepository.GetAll();
 
-            if (clientes == null) 
+            if (!clientes.Any()) 
             {
-                throw new Exception("Nenhum cliente encontrado.");
+                throw new NotFoundException("Nenhum cliente encontrado.");
             }
 
             var clienteConverted = clientes.Select(cliente => new ClienteResponseDto
@@ -59,7 +60,7 @@ namespace E_Bones.Application.Services
 
             if (cliente == null)
             {
-                throw new Exception("Nenhum cliente encontrado.");
+                throw new NotFoundException("Nenhum cliente encontrado.");
             }
 
             ClienteResponseDto clienteResponse = new ClienteResponseDto(cliente);
@@ -73,7 +74,7 @@ namespace E_Bones.Application.Services
 
             if (clienteExistente == null)
             {
-                throw new Exception("Nenhum cliente encontrado.");
+                throw new NotFoundException("Nenhum cliente encontrado.");
             }
 
             clienteExistente.Nome = cliente.Nome;
@@ -87,7 +88,7 @@ namespace E_Bones.Application.Services
         {
             var cliente = await _clienteRepository.GetById(id);
 
-            return (cliente == null && cliente.DeletedAt != null) ? throw new Exception("Id inexistente.") : await _clienteRepository.Delete(id);
+            return (cliente == null && cliente.DeletedAt != null) ? throw new NotFoundException("Id inexistente.") : await _clienteRepository.Delete(id);
         }
     }
 }
