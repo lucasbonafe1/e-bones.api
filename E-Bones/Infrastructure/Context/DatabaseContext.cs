@@ -11,7 +11,6 @@ namespace E_Bones.Infrastructure.Context
 
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Pedido> Pedidos { get; set; }
-        public DbSet<Notificacao> Notificacoes { get; set; }
         public DbSet<Produto> Produtos { get; set; }
         public DbSet<TarefaDeProcessamento> TarefaDeProcessamentos { get; set; }
 
@@ -20,7 +19,6 @@ namespace E_Bones.Infrastructure.Context
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Cliente>().ToTable("clientes");
-            modelBuilder.Entity<Notificacao>().ToTable("notificacao");
             modelBuilder.Entity<Pedido>().ToTable("pedidos");
             modelBuilder.Entity<Produto>().ToTable("produtos");
             modelBuilder.Entity<TarefaDeProcessamento>().ToTable("task_processamento");
@@ -29,12 +27,6 @@ namespace E_Bones.Infrastructure.Context
 
             modelBuilder.Entity<Cliente>()
                 .ToTable("clientes")
-                .Property(p => p.DeletedAt)
-                .HasColumnName("deleted_at")
-                .HasColumnType("timestamptz");
-
-            modelBuilder.Entity<Notificacao>()
-                .ToTable("notificacao")
                 .Property(p => p.DeletedAt)
                 .HasColumnName("deleted_at")
                 .HasColumnType("timestamptz");

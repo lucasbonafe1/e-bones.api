@@ -8,7 +8,6 @@ namespace E_Bones.Controllers
     [Route("clientes")]
     public class ClienteController : ControllerBase
     {
-
         private readonly IClienteService _clienteService;
 
         public ClienteController(IClienteService clienteService)

@@ -32,6 +32,7 @@ namespace E_Bones.Application.Services
 
         public async Task<IEnumerable<PedidoResponseDto>> GetAllAsync()
         {
+
             IEnumerable<Pedido> pedidos = await _pedidoRepository.GetAll();
 
             if (pedidos == null)
@@ -45,8 +46,8 @@ namespace E_Bones.Application.Services
                 ClienteDoPedido = pedidoCriado.ClienteDoPedido,
                 StatusPedido = pedidoCriado.StatusPedido,
                 Descricao = pedidoCriado.Descricao,
-                PrecoTotal = pedidoCriado.PrecoTotal,
-                QuantidadeProdutos = pedidoCriado.QuantidadeProdutos,
+                PrecoTotal = (pedidoCriado.Produtos ?? new List<Produto>()).Sum(produto => produto.Preco), // Tratar 'Produtos' nulo
+                QuantidadeProdutos = (pedidoCriado.Produtos ?? new List<Produto>()).Count, // Tratar 'Produtos' nulo
                 DataDeCriacao = pedidoCriado.DataDeCriacao,
                 Produtos = pedidoCriado.Produtos
             });

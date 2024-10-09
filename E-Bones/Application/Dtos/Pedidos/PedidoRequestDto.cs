@@ -7,9 +7,7 @@ namespace E_Bones.Application.Dtos.Pedidos
     public class PedidoRequestDto
     {
         public Guid ClienteDoPedido { get; set; }
-        public Status StatusPedido { get; set; } // setar para que quando acabar de ser criado o pedido ficar como processando
+        public Status StatusPedido { get; set; }
         public string Descricao { get; set; }
-        //public float PrecoTotal { get; set; } // soma preco de cada produto e gera um total
-        //public int QuantidadeProdutos { get; set; } // Soma a quantia de Produtos
     }
 }

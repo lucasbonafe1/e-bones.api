@@ -18,13 +18,11 @@ builder.Services.AddSwaggerGen();
 
 // REPOSITORY
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
-builder.Services.AddScoped<INotificacaoRepository, NotificaoRepository>();
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 
 // SERVICES
 builder.Services.AddScoped<IClienteService, ClienteService>();
-builder.Services.AddScoped<INotificacaoService, NotificacaoService>();
 builder.Services.AddScoped<IPedidoService, PedidoService>();
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
 

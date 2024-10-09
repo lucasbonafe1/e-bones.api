@@ -57,35 +57,6 @@ namespace E_Bones.Migrations
                     b.ToTable("clientes", (string)null);
                 });
 
-            modelBuilder.Entity("E_Bones.Domain.Entities.Notificacao", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<Guid>("ClienteId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("cliente_id");
-
-                    b.Property<DateTime>("DataDeEnvio")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("data_envio");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamptz")
-                        .HasColumnName("deleted_at");
-
-                    b.Property<string>("Mensagem")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("mensagem");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("notificacao", (string)null);
-                });
-
             modelBuilder.Entity("E_Bones.Domain.Entities.Pedido", b =>
                 {
                     b.Property<Guid>("Id")

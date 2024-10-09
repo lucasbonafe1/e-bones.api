@@ -1,6 +1,9 @@
-﻿using E_Bones.Application.Interfaces;
+﻿using E_Bones.Application.Dtos.Cliente;
+using E_Bones.Application.Dtos.Produtos;
+using E_Bones.Application.Interfaces;
 using E_Bones.Domain.Entities;
 using E_Bones.Domain.Repositories;
+using E_Bones.Infrastructure.Repositories;
 
 namespace E_Bones.Application.Services
 {
@@ -13,29 +16,81 @@ namespace E_Bones.Application.Services
             _produtoRepository = produtoRepository;
         }
 
-        public Task<Pedido> AddAsync(Pedido user)
+        public async Task<ProdutoResponseDto> AddAsync(ProdutoRequestDto produto)
         {
-            throw new NotImplementedException();
+            if (produto == null)
+            {
+                throw new Exception("Produto não pode ser nulo.");
+            }
+
+            Produto produtoConverted = new Produto(produto.Nome, produto.Descricao, produto.ImageUrl, produto.Quantidade, produto.Preco);
+
+            var produtoCreated = await _produtoRepository.Add(produtoConverted);
+
+            ProdutoResponseDto produtoResponseDto = new ProdutoResponseDto(produtoCreated);
+
+            return produtoResponseDto;
         }
 
-        public Task<bool> DeleteAsync(Guid id)
+        public async Task<IEnumerable<ProdutoResponseDto>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            IEnumerable<Produto> produtos = await _produtoRepository.GetAll();
+
+            if (produtos == null)
+            {
+                throw new Exception("Nenhum produto encontrado.");
+            }
+
+            var produtoConverted = produtos.Select(produto => new ProdutoResponseDto
+            {
+                Id = produto.Id,
+                Nome = produto.Nome,
+                Descricao = produto.Descricao,
+                ImageUrl = produto.ImageUrl,
+                Quantidade = produto.Quantidade,
+                Preco = produto.Preco
+            });
+
+            return produtoConverted;
         }
 
-        public Task<IEnumerable<Pedido>> GetAllAsync()
+        public async Task<ProdutoResponseDto> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var produto = await _produtoRepository.GetById(id);
+
+            if (produto == null)
+            {
+                throw new Exception("Nenhum produto encontrado.");
+            }
+
+            ProdutoResponseDto produtoResponse = new ProdutoResponseDto(produto);
+
+            return produtoResponse;
         }
 
-        public Task<Produto> GetByIdAsync(Guid id)
+        public async Task UpdateAsync(ProdutoRequestDto produto, Guid id)
         {
-            throw new NotImplementedException();
+            var produtoExistente = await _produtoRepository.GetById(id);
+
+            if (produtoExistente == null)
+            {
+                throw new Exception("Nenhum produto encontrado.");
+            }
+
+            produtoExistente.Nome = produto.Nome;
+            produtoExistente.Descricao = produto.Descricao;
+            produtoExistente.ImageUrl = produto.ImageUrl;
+            produtoExistente.Quantidade = produto.Quantidade;
+            produtoExistente.Preco = produto.Preco;
+
+            await _produtoRepository.Update(produtoExistente, id);
         }
 
-        public Task UpdateAsync(Pedido user, Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var produto = await _produtoRepository.GetById(id);
+
+            return (produto == null && produto.DeletedAt != null) ? throw new Exception("Id inexistente.") : await _produtoRepository.Delete(id);
         }
     }
 }

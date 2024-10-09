@@ -18,7 +18,7 @@ namespace E_Bones.Domain.Entities
         public string Descricao { get; set; }
 
         [Column("fotos")]
-        public ICollection<String> ImageUrl { get; set; }
+        public IList<String> ImageUrl { get; set; }
 
         [Column("quantidade")]
         public int Quantidade { get; set; }
@@ -31,6 +31,15 @@ namespace E_Bones.Domain.Entities
         public Produto()
         {
 
+        }
+
+        public Produto(string nome, string descricao, IList<string> imageUrl, int quantidade, float preco)
+        {
+            Nome = nome;
+            Descricao = descricao;
+            ImageUrl = imageUrl;
+            Quantidade = quantidade;
+            Preco = preco;
         }
     }
 }

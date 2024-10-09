@@ -1,4 +1,5 @@
 ﻿using E_Bones.Domain.Entities;
+using E_Bones.Domain.Enum;
 using E_Bones.Domain.Repositories;
 using E_Bones.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ namespace E_Bones.Infrastructure.Repositories
         public async Task<Pedido> Add(Pedido entity)
         {
             entity.DataDeCriacao = DateTime.UtcNow;
+            entity.StatusPedido = Status.Processando;
 
             if (entity != null)
             {
@@ -56,11 +58,16 @@ namespace E_Bones.Infrastructure.Repositories
 
             if (pedidoExistente != null && pedidoExistente.DeletedAt == null)
             {
-                await _context.Pedidos.Where(n => n.Id == id && n.DeletedAt == null)
-                .ExecuteUpdateAsync(n => n.SetProperty(e => e.DeletedAt, DateTime.UtcNow));
+                pedidoExistente.StatusPedido = Status.Cancelado;
+
+                await _context.Pedidos
+                    .Where(n => n.Id == id && n.DeletedAt == null)
+                    .ExecuteUpdateAsync(n => n.SetProperty(e => e.DeletedAt, DateTime.UtcNow));
+
+                return true;
             }
 
-            return true;
+            return false;
         }
     }
 }
