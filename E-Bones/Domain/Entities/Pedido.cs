@@ -1,6 +1,7 @@
 ﻿using E_Bones.Domain.Enum;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace E_Bones.Domain.Entities
 {
@@ -30,6 +31,8 @@ namespace E_Bones.Domain.Entities
         public DateTime DataDeCriacao { get; set; }
 
         public ICollection<Produto> Produtos { get; set; }
+
+        [JsonIgnore]
         public DateTime? DeletedAt { get; set; }
 
         public Pedido()

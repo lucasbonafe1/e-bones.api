@@ -28,7 +28,7 @@ namespace E_Bones.Application.Dtos.Pedidos
             PrecoTotal = pedidoCriado.PrecoTotal;
             QuantidadeProdutos = pedidoCriado.QuantidadeProdutos;
             DataDeCriacao = pedidoCriado.DataDeCriacao;
-            Produtos  = pedidoCriado.Produtos;
+            Produtos = pedidoCriado.Produtos;
         }
     }
 }

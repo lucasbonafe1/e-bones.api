@@ -8,6 +8,7 @@ namespace E_Bones.Application.Dtos.Pedidos
     {
         public Guid ClienteDoPedido { get; set; }
         public Status StatusPedido { get; set; }
+        public ICollection<Guid> ProdutosID { get; set; }
         public string Descricao { get; set; }
     }
 }

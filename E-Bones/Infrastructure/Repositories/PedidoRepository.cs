@@ -31,13 +31,22 @@ namespace E_Bones.Infrastructure.Repositories
 
         public async Task<IEnumerable<Pedido>> GetAll()
         {
-            return await _context.Pedidos.Where(p => p.DeletedAt == null).ToListAsync();
+            return await _context.Pedidos
+                .Where(p => p.DeletedAt == null)
+                .Include(p => p.Produtos)
+                .ToListAsync();
         }
+
 
         public async Task<Pedido?> GetById(Guid id)
         {
-            return await _context.Pedidos.Where(p => p.DeletedAt == null).Where(p => p.Id == id).FirstOrDefaultAsync();
+            return await _context.Pedidos
+                .Where(p => p.DeletedAt == null)
+                .Where(p => p.Id == id)
+                .Include(p => p.Produtos)
+                .FirstOrDefaultAsync();
         }
+
 
         public async Task<Pedido?> Update(Pedido entity, Guid id)
         {
